@@ -1,0 +1,12 @@
+data/*.fasta
+**/*.gtf
+**/*.gz
+**/*.fastq
+**/*.gtf
+.DS_Store
+sars_cov_2_k21
+sars_cov_2_k77
+sars_cov_2_k127
+result/*.fplot
+result/*.rplot
+result/*.gp

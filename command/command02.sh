@@ -9,9 +9,11 @@
 # INPUT: 'hiv1_gag.faa'
 # OUNPUT: 'hiv1_gag_msa.faa'
 # Use only two parameters: -i, -o
+clustalo -i data/hiv1_gag.faa -o result/hiv1_gag_msa.faa
 
 # 2. You have a MSA result now, so let's build a tree using it. (Result file:hiv1_gag_tree.nwk)
 # INPUT: 'hiv1_gag_msa.faa'
 # OUTPUT: 'hiv1_gag_tree.nwk'
 # Use the default setting of fasttree. Just give fastree input path and output path.
 # Just type 'fasttree', then you can see a simplified manual.
+fasttree result/hiv1_gag_msa.faa > result/hiv1_gag_tree.nwk

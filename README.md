@@ -81,29 +81,34 @@ Suppose you are studying HIV-1. You collected protein sequences of 'gag' from di
 ---
 
 ## command03.sh
-Scenario: You are studying plant physiology using foward genetics. You have isolated a mutant with increased crossover rate, and you found that the causal mutation occured on BZIP49 gene. But the gene is poorly annotated, providing no meaningful information. And you come up with an idea. "If I can find some homologous genes, I can get more clue about my gene based on the annotations of the homologs." So you started a homology search using MMseqs2 
+Scenario: As you were preparing for exams, a wish to have a superpower to overcome sleepiness crossed your mind.
+Intrigued, you discovered that BHLHE41 is a gene involved in circadian rhythm.
+Now, you are curious to find out how the gene evolved and if modern society's changes in circadian rhythm have affected its evolution.
+And you come up with an idea.
+"If I can find some homologous genes, I can get more clue about the gene's evolution."
+With this in mind, you begin a homology search using MMseqs2.
 
 1. Build a MMseqs2 database using Swiss-Prot reference proteins. (No resulf file)
     - Build database in **DB** directory
     - HINT: Read the 'Search' part of MMseqs2 README.
     - :bangbang: If you made database in the wrong directory, you will not get point from this question. :bangbang:
     
-2. Perform a non-iterative homology search. You have the sequence of BZIP49 in data directory. Save the result as **bzip49_homologs.m8** in result directory. Check how many homologs are found.(Result file: bzip49_homologs.m8)
-    - INPUT: 'bzip49.faa'
-    - OUTPUT: 'bzip49_homologs.m8'
+2. Perform a non-iterative homology search. You have the sequence of BHLHE41 in data directory. Save the result as **bhlhe41_homologs.m8** in result directory. Check how many homologs are found.(Result file: bhlhe41_homologs.m8)
+    - INPUT: 'bhlhe41.faa'
+    - OUTPUT: 'bhlhe41_homologs.m8'
     - HINT: Read the README of "https://github.com/soedinglab/mmseqs2"
     - Don't use extra options. Just give input path, database, output path, and tmp path.
 
-3. Perform an iterative homology search using the same query, Save the result as **bzip49_homologs_iter.m8** in result directory. Check how many homologs are found.(Result file: bzip49_homologs_iter.m8)
-    - INPUT: 'bzip49.faa'
-    - OUTPUT: 'bzip49_homologs_iter.m8'
+3. Perform an iterative homology search using the same query, Save the result as **bhlhe41_homologs_iter.m8** in result directory. Check how many homologs are found.(Result file: bhlhe41_homologs_iter.m8)
+    - INPUT: 'bhlhe41.faa'
+    - OUTPUT: 'bhlhe41_homologs_iter.m8'
     - Set **--num-iteration** as 3
     - Don't use extra options. Just give input path, database, output path, and tmp path.
  
 4. How many paralogs you can find in the results of command03-2,3? (Result file: paralogs_cnt.txt)
     - HINT: Use **--format-output** option to get more informations of hits.
     - :bangbang: If you have intermediate files from mmseqs2, save them into the intermediate directory. :bangbang:
-    - Don't count the query gene.
+    - Don't count the gene of interest (query gene).
     - Write it on file **paralogs_cnt.txt** in result directory.
     - Write the two number separating lines. Write the number for command03-2 first.
    ```
@@ -114,21 +119,21 @@ Scenario: You are studying plant physiology using foward genetics. You have isol
 ---
 
 ## command04.sh
-Paralogs go through different evolutionary paths, and some of them can lose or gain domains. To investigate what domains the paralogs have, you can search your paralogs against Pfam database which stores protein domain sequences. Now, you want to find out what domains the paralogs of BZIP49 have.
+Paralogs go through different evolutionary paths, and some of them can lose or gain domains. To investigate what domains the paralogs have, you can search your paralogs against Pfam database which stores protein domain sequences. Now, you want to find out what domains the paralogs of bhlhe41 have.
 
 1. Build a MMseqs2 Pfam database. (No result file)
     - Build database in **DB** directory
     - HINT: Use the same command used 3-1. Just replace **UniProtKB/Swiss-Prot** with **Pfam-A.seed**, giving different DB name.
     - :bangbang: If you made database in the wrong directory, you will not get point from this question. :bangbang:
 
-2. Get the protein sequence of the most diverged hit (the last hit) of command03-3, and store it as a fasta file, **remote-protein.faa** in the intermediate directory. And search it to pfam database non-iteratively. Store the result as **remote-protein-pfam.m8** in the result directory. (Result file: remote-protein-pfam.m8)
-    - HINT: Run the search of 03-3 using **tseq** with **--format-output** to get the sequence.
+2. Get the protein sequence of the most diverged hit (the last hit) of command03-2, and then store it as a fasta file, **remote-protein.faa** in the intermediate directory. And search it to pfam database non-iteratively. Store the result as **remote-protein-pfam.m8** in the result directory. (Result file: remote-protein-pfam.m8)
+    - HINT: Run the search of 03-2 using **tseq** with **--format-output** to get the sequence.
     - Write the second column of MMseqs result as the header of **remote-protein.faa*
-    - :bangbang: Make sure save all the intermediate files not specified as Result file in the intermediate directory. :bangbang:
+    - :bangbang: Make sure save all the intermediate files (not specified as Result file) in the intermediate directory. :bangbang:
 
-3. bZIP23 is a paralog of bZIP49, and its protein sequence is in data directory. Search it non-iteratively against the Pfam database, and store the result as **bzip23-pfam.m8** in the result directory. (Result file: bzip23-pfam.m8)
+3. BMAL1 is a paralog of BHLHE41, and its protein sequence is in data directory. Search it non-iteratively against the Pfam database, and store the result as **bmal1-pfam.m8** in the result directory. (Result file: bmal1-pfam.m8)
 
-4. Write the IDs of the domains that exist only in one of the two protein (remote protein & bzip23) in **unique_domain.txt** in result directory. (Result file: unique_domain.txt)
+4. Write the IDs of the domains that exist only in one of the two proteins (remote protein & bmal1) in **unique_domain.txt** in result directory. (Result file: unique_domain.txt)
     - Write them in alphanumeric order.
     ```
     PF00001.1

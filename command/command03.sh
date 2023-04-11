@@ -8,7 +8,7 @@
 
 # 1. Build a MMseqs2 database using Swiss-Prot reference proteins. (No resulf file)
 #    HINT: Read the 'Search' part of MMseqs2 README.
-mmseqs databases UniprotKB/Swiss-Prot swissprot tmp
+mmseqs databases UniProtKB/Swiss-Prot DB/swissprot tmp
 
 # 2. Perform a homology search. You have the sequence of BZIP49 in data directory. 
 #    Save the result as bzip49_homologs.m8 in result directory. (Result file: bzip49_homologs.m8)
@@ -16,13 +16,17 @@ mmseqs databases UniprotKB/Swiss-Prot swissprot tmp
 #    OUTPUT: 'bzip49_homologs.m8'
 #    HINT: Read the README of "https://github.com/soedinglab/mmseqs2"
 #    Don't use extra options. Just give input path, database, output path, and tmp path.
-mmseqs easy-search data/bzip49.faa swissprot result/bzip49_homologs.m8 tmp
+mmseqs easy-search data/bzip49.faa DB/swissprot result/bzip49_homologs.m8 tmp
 
 # 3. See the README
-mmseqs easy-search data/bzip49.faa swissprot result/bzip49_homologs_iter.m8 tmp --num-iterations 3
+mmseqs easy-search data/bzip49.faa DB/swissprot result/bzip49_homologs_iter.m8 tmp --num-iterations 3
 
 # 4. See the README
+mmseqs easy-search data/bzip49.faa DB/swissprot intermediate/bzip49_feature.m8 tmp --format-output target,taxid
+mmseqs easy-search data/bzip49.faa DB/swissprot intermediate/bzip49_iter_feature.m8 tmp --num-iterations 3 --format-output target,taxid
 
-# 5. See the README
-
-# 6. See the README
+data=(bzip49_feature.m8 bzip49_iter_feature.m8)
+for i in "${data[@]}"
+do
+    awk 'NR==1 {paralog=0;gene=$2;next} NR>1 && $2==gene {paralog+=1} END {print paralog}' ./intermediate/$i >> ./result/paralogs_cnt.txt
+done
